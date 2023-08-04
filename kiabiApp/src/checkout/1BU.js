@@ -14,8 +14,8 @@ import { SingularPanelWithErrors } from './myThings/singularPanelWithErrors';
 export default function BU(props){
 
 
-    // const [errors, setErrors] = React.useState({
-    // });
+    const [errors, setErrors] = React.useState({
+    });
 
     // const handleChangeBU = (event) => {
     //     props.handleFormData("BU", event.target.value);
@@ -36,44 +36,25 @@ export default function BU(props){
     //     }
     // }
 
+    // const [HEV, setHEV] = React.useState({
+    //     errors : {},
+    //     setErrors : () => {},
+    //     handleFormData : props.handleFormData,
+    //     values : {}
+    // });
+
     // let HEV = {
     //     errors : errors,
     //     setErrors : setErrors,
     //     handleFormData : props.handleFormData,
     //     values : props.values
-    // };
+    // }
 
     
-    const [errors, setErrors] = React.useState({
-    });
-
-    function validateBool(){
-        for (let i = 0;i<Object.keys(errors).length;i++){
-            if (errors[Object.keys(errors)[i]]){
-                return false;
-            }
-        }
-        return true;
-    }
-
-    const validate = () => {
-        if (validateBool()){
-            props.nextStep();
-        }
-    }
-
-    let HEV = {
-        errors : errors,
-        setErrors : setErrors,
-        handleFormData : props.handleFormData,
-        values : props.values,
-        validate : validate,
-        validateBool : validateBool
-    };
 
     return <SingularPanelWithErrors 
         {... props}
-        HEV = {HEV}
+        errors = {errors}
     >
      <Typography variant="h6" gutterBottom>
        Votre BU
@@ -84,19 +65,21 @@ export default function BU(props){
          <InputLabel 
             required id="selectBU">BU</InputLabel>
           <SelectWithError
+            {... props}
             required
             labelId="selectBU"
             id="selectBU"
             label="BU" 
-            HEV = {HEV}
+            errors = {errors}
+            setErrors = {setErrors}
             identifier="pBU"
             errorFunction = {(value) => value === ''}
           >
-          <MenuItem value={0}>World services</MenuItem>
-          <MenuItem value={1}>Logistique Lauwin Planque</MenuItem>
-          <MenuItem value={2}>KIFS</MenuItem>
-          <MenuItem value={3}>France succursales ou services centraux / Invité au KOM</MenuItem>
-          <MenuItem value={4}>France affiliés / Invité au KOM</MenuItem>
+          <MenuItem value={"World services"}>World services</MenuItem>
+          <MenuItem value={"Logistique Lauwin Planque"}>Logistique Lauwin Planque</MenuItem>
+          <MenuItem value={"KIFS"}>KIFS</MenuItem>
+          <MenuItem value={"France succursales"}>France succursales ou services centraux / Invité au KOM</MenuItem>
+          <MenuItem value={"France affiliés"}>France affiliés / Invité au KOM</MenuItem>
         </SelectWithError>
         </FormControl>
         

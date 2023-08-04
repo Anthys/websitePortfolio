@@ -2,6 +2,7 @@ import React from 'react';
 import { TextField } from '@mui/material';
 import { useEffect } from 'react';
 import { Select } from '@mui/material';
+import { RadioGroup } from '@mui/material';
 
 // Textfield with validation message in case of error
 export function TextFieldWithError(props){
@@ -10,17 +11,17 @@ export function TextFieldWithError(props){
         errorFunction = (value) => value == '';
     }
     useEffect(() => {
-        props.HEV.setErrors({...props.HEV.errors, [props.identifier]: errorFunction(props.HEV.values[props.identifier])});
+        props.setErrors(prev => ({...prev, [props.identifier]: errorFunction(props.values[props.identifier])}));
     }, []);
     return <TextField
         {... props}
-        defaultValue={props.HEV.values[props.identifier]}
-        onChange={e => {props.HEV.handleFormData(props.identifier, e.target.value);
-                props.HEV.setErrors({...props.HEV.errors, [props.identifier]: errorFunction(e.target.value)});
+        defaultValue={props.values[props.identifier]}
+        onChange={e => {props.handleFormData(props.identifier, e.target.value);
+                props.setErrors({...props.errors, [props.identifier]: errorFunction(e.target.value)});
             }
         }
-        error={props.HEV.errors[props.identifier] == true || props.HEV.errors[props.identifier] == undefined}
-        helperText={props.helperText? props.helperText : "Incorrect entry"}
+        error={props.errors[props.identifier] == true || props.errors[props.identifier] == undefined}
+        //helperText={props.helperText? props.helperText : "Incorrect entry"}
     />
 }
 
@@ -30,30 +31,49 @@ export function SelectWithError(props){
         errorFunction = (value) => value == '';
     }
     useEffect(() => {
-        props.HEV.setErrors({...props.HEV.errors, [props.identifier]: errorFunction(props.HEV.values[props.identifier])});
+        props.setErrors(prev => ({...prev, [props.identifier]: errorFunction(props.values[props.identifier])}));
     }, []);
 
     return <Select
         {... props}
-        defaultValue={props.HEV.values[props.identifier]}
-        onChange={e => {props.HEV.handleFormData(props.identifier, e.target.value);
-                props.HEV.setErrors({...props.HEV.errors, [props.identifier]: errorFunction(e.target.value)});
+        defaultValue={props.values[props.identifier]}
+        onChange={e => {props.handleFormData(props.identifier, e.target.value);
+                props.setErrors({...props.errors, [props.identifier]: errorFunction(e.target.value)});
             }
         }
-        error={props.HEV.errors[props.identifier] == true || props.HEV.errors[props.identifier] == undefined}
-        helperText={props.helperText? props.helperText : "Incorrect entry"}
+        error={props.errors[props.identifier] == true || props.errors[props.identifier] == undefined}
+        //helperText={props.helperText? props.helperText : "Incorrect entry"}
     />
     
     {/* <TextField
         {... props}
-        defaultValue={props.HEV.values[props.identifier]}
-        onChange={e => {props.HEV.handleFormData(props.identifier, e.target.value);
-                props.HEV.setErrors({...props.HEV.errors, [props.identifier]: errorFunction(e.target.value)});
+        defaultValue={props.values[props.identifier]}
+        onChange={e => {props.handleFormData(props.identifier, e.target.value);
+                props.setErrors({...props.errors, [props.identifier]: errorFunction(e.target.value)});
             }
         }
-        error={props.HEV.errors[props.identifier] == true || props.HEV.errors[props.identifier] == undefined}
+        error={props.errors[props.identifier] == true || props.errors[props.identifier] == undefined}
         helperText={props.helperText? props.helperText : "Incorrect entry"}
     /> */}
+}
+
+export function RadioWithError(props){let errorFunction = props.errorFunction;
+    if (!props.errorFunction){
+        errorFunction = (value) => value == '';
+    }
+    useEffect(() => {
+        props.setErrors(prev => ({...prev, [props.identifier]: errorFunction(props.values[props.identifier])}));
+    }, []);
+    return <RadioGroup
+        {... props}
+        defaultValue={props.values[props.identifier]}
+        onChange={e => {props.handleFormData(props.identifier, e.target.value);
+                props.setErrors({...props.errors, [props.identifier]: errorFunction(e.target.value)});
+            }
+        }
+        error={props.errors[props.identifier] == true || props.errors[props.identifier] == undefined}
+  ></RadioGroup>
+
 }
 
 

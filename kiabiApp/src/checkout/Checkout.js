@@ -17,6 +17,11 @@ import Review from './Review';
 import ProductForm from './ProductForm';
 import { useState } from 'react';
 import BU from './1BU';
+import Coords from './2Inscri';
+import Hebergement from './3Hebergement';
+import Transport from './4Transport';
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { SelectWithError } from './myThings/fieldsWithError';
 
 function Copyright() {
   return (
@@ -31,7 +36,7 @@ function Copyright() {
   );
 }
 
-const steps = ['Product', 'Shipping address', 'Payment details', 'Review your order'];
+const steps = ['BU', 'Coordonnées', 'Hébergement', 'Transport'];
 
 function getStepContent(step, nextStep, prevStep, handleInputData, formData) {
   switch (step) {
@@ -39,11 +44,12 @@ function getStepContent(step, nextStep, prevStep, handleInputData, formData) {
       return <BU nextStep={nextStep} handleFormData={handleInputData} values={formData}></BU>
       // return <ProductForm nextStep={nextStep} handleFormData={handleInputData} values={formData} />;
     case 1:
-      return <AddressForm nextStep={nextStep} prevStep={prevStep} handleFormData={handleInputData} values={formData} />;
+      return <Coords nextStep={nextStep} prevStep={prevStep} handleFormData={handleInputData} values={formData}></Coords>
+      // return <AddressForm nextStep={nextStep} prevStep={prevStep} handleFormData={handleInputData} values={formData} />;
     case 2:
-      return <PaymentForm nextStep={nextStep} prevStep={prevStep} handleFormData={handleInputData} values={formData} />;
+      return <Hebergement nextStep={nextStep} prevStep={prevStep} handleFormData={handleInputData} values={formData} />;
     case 3:
-      return <Review nextStep={nextStep} prevStep={prevStep} handleFormData={handleInputData} values={formData}/>;
+      return <Transport nextStep={nextStep} prevStep={prevStep} handleFormData={handleInputData} values={formData}/>;
     default:
       throw new Error('Unknown step');
   }
@@ -146,6 +152,28 @@ export default function Checkout() {
           </Typography>
         </Toolbar>
       </AppBar>
+      
+      <FormControl fullWidth>
+         <InputLabel 
+            required id="selectBU">BU DEBUG DEMO</InputLabel>
+          <SelectWithError
+            values={formData}
+            handleFormData={handleInputData}
+            errors = ""
+            setErrors = {() => {}}
+            required
+            labelId="selectBU"
+            id="selectBU"
+            label="BU DEBUG DEMO" 
+            identifier="pBU"
+          >
+          <MenuItem value={"World services"}>World services</MenuItem>
+          <MenuItem value={"Logistique Lauwin Planque"}>Logistique Lauwin Planque</MenuItem>
+          <MenuItem value={"KIFS"}>KIFS</MenuItem>
+          <MenuItem value={"France succursales"}>France succursales ou services centraux / Invité au KOM</MenuItem>
+          <MenuItem value={"France affiliés"}>France affiliés / Invité au KOM</MenuItem>
+        </SelectWithError>
+        </FormControl>
       <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
         <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
           <Typography component="h1" variant="h4" align="center">
@@ -161,12 +189,10 @@ export default function Checkout() {
           {activeStep === steps.length ? (
             <React.Fragment>
               <Typography variant="h5" gutterBottom>
-                Thank you for your order.
+                Votre inscription a bien été prise en compte!
               </Typography>
               <Typography variant="subtitle1">
-                Your order number is #2001539. We have emailed your order
-                confirmation, and will send you an update when your order has
-                shipped.
+                Vous recevrez bientôt un email de confirmation.
               </Typography>
             </React.Fragment>
           ) : (
