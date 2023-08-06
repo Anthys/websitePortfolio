@@ -1,29 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
-import checkout from './checkout/Checkout';
-import {MyForm} from './checkout/FormForm.js';
+import ReactDOM from "react-dom/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Checkout from "./checkout/Checkout";
+import BackOffice from "./checkout/BackOffice";
 
-function App() {
-  return checkout();
-  // return <MyForm />;
-  // (
-  //   <div className="App">
-  //     <header className="App-header">
-  //       <img src={logo} className="App-logo" alt="logo" />
-  //       <p>
-  //         Edit <code>src/App.js</code> and save to abreload.
-  //       </p>
-  //       <a
-  //         className="App-link"
-  //         href="https://reactjs.org"
-  //         target="_blank"
-  //         rel="noopener noreferrer"
-  //       >
-  //         Learn React
-  //       </a>
-  //     </header>
-  //   </div>
-  // );
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/">
+          <Route index element={<Checkout />} />
+          <Route path="backoffice" element={<BackOffice />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App;
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);

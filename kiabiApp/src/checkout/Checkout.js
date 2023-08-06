@@ -102,7 +102,26 @@ export default function Checkout() {
     setActiveStep(activeStep - 1);
   };
 
+  
+  function sendPostRequest(entry){
+    // alert(entry)
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(entry)
+    };
+    fetch('http://127.0.0.1:8000/entries/', requestOptions)
+        .then(response => response.json())
+        .then(data => alert(JSON.stringify(data)));
+  }
+
+
   const nextStep = () => {
+    if (activeStep === steps.length - 1){
+      let tFormData = formData;
+      tFormData.pLangues = tFormData.pLangues.join(", ");
+      sendPostRequest(tFormData);
+    }
     setActiveStep(activeStep + 1);
   };
 
@@ -191,6 +210,7 @@ export default function Checkout() {
               <Typography variant="h5" gutterBottom>
                 Votre inscription a bien été prise en compte!
               </Typography>
+              Debug:{JSON.stringify(formData)}
               <Typography variant="subtitle1">
                 Vous recevrez bientôt un email de confirmation.
               </Typography>
