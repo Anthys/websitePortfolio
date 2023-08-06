@@ -24,6 +24,8 @@ import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { SelectWithError } from './myThings/fieldsWithError';
 import { useTranslation } from "react-i18next";
 
+import background from "./logoo2.png"
+
 
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { blue } from '@mui/material/colors';
@@ -150,6 +152,7 @@ export default function Checkout() {
   //     [input]: value
   // }));
   // }
+  const imgPath = "https://img.freepik.com/free-vector/gradient-abstract-logo_52683-8517.jpg?w=826&t=st=1691352339~exp=1691352939~hmac=a19c59833ecffa809ebee3edc99034291a5acc49b2119aeb6f018579592f74b1";
 
   const handleInputData = (e,v) => {
     // console.log(input);
@@ -206,7 +209,8 @@ export default function Checkout() {
         </SelectWithError>
         </FormControl>
       <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
-        <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
+        {/* backgroundImage:'url('+imgPath+')' */}
+        <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 }, backgroundImage : `url(${background})` , backgroundSize: "100% auto"}}>
           <Typography component="h1" variant="h4" align="center">
             {t("formTitle")}
             {/* Plateforme d'inscription COMPANY Kick-Off Meeting 2023 */}
