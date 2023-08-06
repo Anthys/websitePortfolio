@@ -11,7 +11,15 @@ import Button from '@mui/material/Button';
 import { TextFieldWithError, SelectWithError } from './myThings/fieldsWithError';
 import { SingularPanelWithErrors } from './myThings/singularPanelWithErrors';
 
+import { useTranslation } from "react-i18next";
+
 export default function BU(props){
+
+  const {t, i18n} = useTranslation();
+
+  const handleChange = (language) => {
+    i18n.changeLanguage(language);
+  };
 
 
     const [errors, setErrors] = React.useState({
@@ -57,7 +65,7 @@ export default function BU(props){
         errors = {errors}
     >
      <Typography variant="h6" gutterBottom>
-       Votre BU
+       {t('VotreBu')}
      </Typography>
      <Grid container spacing={3}>
        <Grid item xs={12}>

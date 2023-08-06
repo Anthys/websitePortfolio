@@ -57,6 +57,38 @@ export function SelectWithError(props){
     /> */}
 }
 
+export function MultiSelectWithError(props){
+    let errorFunction = props.errorFunction;
+    if (!props.errorFunction){
+        errorFunction = (value) => value == '';
+    }
+    useEffect(() => {
+        props.setErrors(prev => ({...prev, [props.identifier]: errorFunction(props.values[props.identifier])}));
+    }, []);
+
+    return <Select
+        {... props}
+        defaultValue={props.values[props.identifier]}
+        onChange={e => {let value = e.target.value;props.handleFormData(props.identifier, typeof value === 'string' ? value.split(',') : value);
+                props.setErrors({...props.errors, [props.identifier]: errorFunction(e.target.value)});
+            }
+        }
+        error={props.errors[props.identifier] == true || props.errors[props.identifier] == undefined}
+        //helperText={props.helperText? props.helperText : "Incorrect entry"}
+    />
+    
+    {/* <TextField
+        {... props}
+        defaultValue={props.values[props.identifier]}
+        onChange={e => {props.handleFormData(props.identifier, e.target.value);
+                props.setErrors({...props.errors, [props.identifier]: errorFunction(e.target.value)});
+            }
+        }
+        error={props.errors[props.identifier] == true || props.errors[props.identifier] == undefined}
+        helperText={props.helperText? props.helperText : "Incorrect entry"}
+    /> */}
+}
+
 export function RadioWithError(props){let errorFunction = props.errorFunction;
     if (!props.errorFunction){
         errorFunction = (value) => value == '';

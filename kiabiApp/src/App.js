@@ -3,6 +3,9 @@ import { BrowserRouter, HashRouter, Routes, Route } from "react-router-dom";
 import Checkout from "./checkout/Checkout";
 import BackOffice from "./checkout/BackOffice";
 
+import "./services/i18n";
+
+
 export default function App() {
   return (
     <HashRouter  >

@@ -11,8 +11,10 @@ import {FormLabel, FormControlLabel, Radio, TextField} from '@mui/material';
 import {MuiTelInput} from 'mui-tel-input';
 
 
-import { TextFieldWithError, SelectWithError, RadioWithError } from './myThings/fieldsWithError';
+import { TextFieldWithError, SelectWithError, RadioWithError, MultiSelectWithError } from './myThings/fieldsWithError';
 import { SingularPanelWithErrors } from './myThings/singularPanelWithErrors';
+
+import { useTranslation } from "react-i18next";
 
 
 function getPerimetreOptions(BU){
@@ -45,18 +47,18 @@ function getPerimetreOptions(BU){
 
 }
 
-function getPerimetre(props, errors, setErrors){
+function getPerimetre(props, errors, setErrors, t){
   if (["World services", "France succursales", "France affiliés"].includes(props.values.pBU)){
     return (
       <FormControl fullWidth>
             <InputLabel 
-                required id="selectPerimetre">Mon perimètre</InputLabel>
+                required id="selectPerimetre">{t("Perimetre")}</InputLabel>
               <SelectWithError
                 {... props}
                 required
                 labelId="selectPerimetre"
                 id="selectPerimetre"
-                label="Mon perimètre" 
+                label={t("Perimetre")}
                 errors = {errors}
                 setErrors = {setErrors}
                 identifier="pPerimetre"
@@ -71,13 +73,23 @@ function getPerimetre(props, errors, setErrors){
         props.handleFormData("pPerimetre", "Logistique");
       }
       return (
-        <Typography>Logistique</Typography>
+        <Typography>Perimètre: Logistique</Typography>
       )
     }
     else {
       return (
-        <TextField>
-        </TextField>
+        <TextFieldWithError
+        {... props}
+        required
+        identifier="pPerimetre"
+        id="pPerimetre"
+        name="pPerimetre"
+        label={t("Perimetre")}
+        variant="standard"
+        errors = {errors}
+        setErrors = {setErrors}
+        
+        ></TextFieldWithError>
       )
     }
 }
@@ -99,6 +111,8 @@ function isInside(BU, familyOfBu){
 
 export default function Coords(props){
 
+   const { t } = useTranslation();
+
 
     const [errors, setErrors] = React.useState({
     });
@@ -114,7 +128,7 @@ export default function Coords(props){
         errors = {errors}
     >
      <Typography variant="h6" gutterBottom>
-       Coordonnées
+       {t("Coordonnees")}
      </Typography>
      <Grid container spacing={3}>
        <Grid item xs={12} sm={6}>
@@ -123,7 +137,7 @@ export default function Coords(props){
         required
         id="firstName"
         name="firstName"
-        label="Prénom"
+        label={t("Prenom")}
         autoComplete="given-name"
         variant="standard"
         errors = {errors}
@@ -137,7 +151,7 @@ export default function Coords(props){
         required
         id="lastName"
         name="lastName"
-        label="Nom"
+        label={t("Nom")}
         autoComplete="family-name"
         variant="standard"
         errors = {errors}
@@ -147,7 +161,7 @@ export default function Coords(props){
         </Grid>
         <Grid item xs={12}>
         <FormControl>
-  <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>
+  <FormLabel id="demo-radio-buttons-group-label">{t("Genre")}</FormLabel>
   <RadioWithError
         {... props}
     aria-labelledby="demo-radio-buttons-group-label"
@@ -156,14 +170,14 @@ export default function Coords(props){
     setErrors = {setErrors}
     identifier = "pGenre"
   >
-    <FormControlLabel value="female" control={<Radio />} label="Female" />
-    <FormControlLabel value="male" control={<Radio />} label="Male" />
-    <FormControlLabel value="other" control={<Radio />} label="Other"></FormControlLabel> 
+    <FormControlLabel value="female" control={<Radio />} label={t("Femme")} />
+    <FormControlLabel value="male" control={<Radio />} label={t("Homme")} />
+    <FormControlLabel value="other" control={<Radio />} label={t("Autre")} />
     { ((props.values.pGenre != "male") && (props.values.pGenre != "female") && (props.values.pGenre != "")) && 
     <TextField
       id = "pGenre"
       name = "Genre"
-      label = "Genre"
+      label = {t("Genre")}
       variant = "standard"
       onChange = {e => props.handleFormData("pGenre", e.target.value)}
     ></TextField>
@@ -172,14 +186,17 @@ export default function Coords(props){
 </FormControl>
         </Grid>
         <Grid item xs={12}>
+  <FormLabel id="demo-radio-buttons-group-label">{t("Telephone")}</FormLabel>
+  <br></br>
     <MuiTelInput defaultCountry='FR' value={props.values.pPhone} onChange={e=> props.handleFormData("pPhone", e)}></MuiTelInput>
         </Grid>
         <Grid item xs={12}>
           <TextFieldWithError
         {... props}
+        required
         id="email"
         name="email"
-        label="Email"
+        label={t("Email")}
         autoComplete="email"
         variant="standard"
         errors = {errors}
@@ -190,7 +207,7 @@ export default function Coords(props){
         {/* /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i; */}
         </Grid>
         <Grid item xs={12}>
-        {getPerimetre(props, errors, setErrors)}
+        {getPerimetre(props, errors, setErrors, t)}
         </Grid>
         {isInside(props.values.pBU, ["France succursales", "France affiliés"]) && 
         <Grid item xs={12}>  
@@ -198,7 +215,7 @@ export default function Coords(props){
         {... props}
         id="nomMagasin"
         name="nomMagasin"
-        label="Nom du magasin"
+        label={t("Nom du magasin")}
         autoComplete="nomMagasin"
         variant="standard"
         errors = {errors}
@@ -207,7 +224,7 @@ export default function Coords(props){
         />
         </Grid>}
         <Grid item xs={12}>
-  <FormLabel id="demo-radio-buttons-group-label">Présence au KOM</FormLabel>
+  <FormLabel id="demo-radio-buttons-group-label">{t("PresenceAuKOM")}</FormLabel>
       <RadioWithError
             {... props}
         aria-labelledby="demo-radio-buttons-group-label"
@@ -217,13 +234,13 @@ export default function Coords(props){
         setErrors = {setErrors}
         identifier = "pKOMPresence"
       >
-        <FormControlLabel value="Oui" control={<Radio />} label="Oui" />
-        <FormControlLabel value="Non" control={<Radio />} label="Non" />
+        <FormControlLabel value="Oui" control={<Radio />} label={t("Oui")} />
+        <FormControlLabel value="Non" control={<Radio />} label={t("Non")} />
         </RadioWithError>
         </Grid>
         {isInside(props.values.pBU, ["France succursales", "France affiliés"]) &&
         <Grid item xs={12}>
-  <FormLabel id="demo-radio-buttons-group-label">Présence au lancement France, à 16h30</FormLabel>
+  <FormLabel id="demo-radio-buttons-group-label">{t("PresenceAuLancementFrance")}</FormLabel>
       <RadioWithError
             {... props}
         aria-labelledby="demo-radio-buttons-group-label"
@@ -233,13 +250,13 @@ export default function Coords(props){
         setErrors = {setErrors}
         identifier = "pPresenceLancementFrance"
       >
-        <FormControlLabel value="Oui" control={<Radio />} label="Oui" />
-        <FormControlLabel value="Non" control={<Radio />} label="Non" />
+      <FormControlLabel value="Oui" control={<Radio />} label={t("Oui")} />
+      <FormControlLabel value="Non" control={<Radio />} label={t("Non")} />
         </RadioWithError>
         </Grid>
         }
         <Grid item xs={12}>
-  <FormLabel id="demo-radio-buttons-group-label">Présence à la soirée</FormLabel>
+  <FormLabel id="demo-radio-buttons-group-label">{t("PresenceALaSoiree")}</FormLabel>
       <RadioWithError
             {... props}
         aria-labelledby="demo-radio-buttons-group-label"
@@ -249,37 +266,37 @@ export default function Coords(props){
         setErrors = {setErrors}
         identifier = "pPresenceSoiree"
       >
-        <FormControlLabel value="Oui" control={<Radio />} label="Oui" />
-        <FormControlLabel value="Non" control={<Radio />} label="Non" />
+      <FormControlLabel value="Oui" control={<Radio />} label={t("Oui")} />
+      <FormControlLabel value="Non" control={<Radio />} label={t("Non")} />
         </RadioWithError>
         </Grid>
         <Grid item xs={12}>
       <FormControl fullWidth>
             <InputLabel 
-                required id="selectPerimetre">Pour que tu vives au mieux le KOM, dis nous quelles langues parles-tu ?</InputLabel>
-              <SelectWithError
+                required id="selectPerimetre">{t("QuellesLangues")}</InputLabel>
+              <MultiSelectWithError
                 {... props}
                 required
                 multiple
                 labelId="selectPerimetre"
                 id="selectPerimetre"
-                label="Pour que tu vives au mieux le KOM, dis nous quels langues parles-tu ?" 
+                label={t("QuellesLangues")}
                 errors = {errors}
                 setErrors = {setErrors}
                 identifier="pLangues"
                 errorFunction = {(value) => value === ''}
-                value = {[]}
+                value = {typeof props.values.pLangues === 'string' ? [] : props.values.pLangues}
               >
                 <MenuItem value={"Francais"}>Francais</MenuItem>,
           <MenuItem value={"Anglais"}>Anglais</MenuItem>,
           <MenuItem value={"Italien"}>Italien</MenuItem>,
           <MenuItem value={"Espagnol"}>Espagnol</MenuItem>,
           <MenuItem value={"Portugais"}>Portugais</MenuItem>
-            </SelectWithError>
+            </MultiSelectWithError>
             </FormControl>
         </Grid>
         <Grid item xs={12}>
-          <FormLabel id="demo-radio-buttons-group-label">Régime alimentaire particulier (Végétarien, végétalien, allergènes, autres) </FormLabel>
+          <FormLabel id="demo-radio-buttons-group-label">{t('Regime')} </FormLabel>
           <TextFieldWithError
         {... props}
         fullWidth
@@ -295,13 +312,13 @@ export default function Coords(props){
         />
         </Grid>
         <Grid item xs={12}><FormControl>
-        <FormLabel id="demo-radio-buttons-group-label">Particularité/autre précision utile (personne enceinte, mobilité réduite, problèmes de santé,...) </FormLabel>
+        <FormLabel id="demo-radio-buttons-group-label">{t("Particularité")} </FormLabel>
         <TextFieldWithError
       {... props}
       fullWidth
       id="regime"
       name="regime"
-      label="Particularité"
+      label={t("ParticularitéSmall")}
       variant="standard"
       errors = {errors}
       setErrors = {setErrors}
@@ -311,13 +328,13 @@ export default function Coords(props){
       </Grid>
       <Grid item xs={12}>
        <FormControl fullWidth>
-      <FormLabel>As-tu un talent particulier que tu souhaiterais partager avec les Kiabers, sur une scène ouverte ou en animant un atelier ?</FormLabel>
+      <FormLabel>{t("Talent")}</FormLabel>
       <TextFieldWithError
     {... props}
     fullWidth
     id="talent"
     name="talent"
-    label="Talent particulier"
+    label={t("TalentSmall")}
     variant="standard"
     errors = {errors}
     setErrors = {setErrors}

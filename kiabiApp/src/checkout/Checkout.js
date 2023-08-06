@@ -22,6 +22,11 @@ import Hebergement from './3Hebergement';
 import Transport from './4Transport';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { SelectWithError } from './myThings/fieldsWithError';
+import { useTranslation } from "react-i18next";
+
+
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { blue } from '@mui/material/colors';
 
 function Copyright() {
   return (
@@ -36,7 +41,7 @@ function Copyright() {
   );
 }
 
-const steps = ['BU', 'Coordonnées', 'Hébergement', 'Transport'];
+const steps = ['BU', 'Coordonnees', 'Hebergement', 'Transport'];
 
 function getStepContent(step, nextStep, prevStep, handleInputData, formData) {
   switch (step) {
@@ -56,7 +61,14 @@ function getStepContent(step, nextStep, prevStep, handleInputData, formData) {
 }
 
 export default function Checkout() {
+  const matches = useMediaQuery('(min-width:600px)');
   const [activeStep, setActiveStep] = useState(0);
+
+  const {t, i18n} = useTranslation();
+
+  const handleChange = (language) => {
+    i18n.changeLanguage(language);
+  };
 
   // const [validationStep, setValidationStep] = useState(0);
   // 0 = not validated
@@ -196,15 +208,23 @@ export default function Checkout() {
       <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
         <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
           <Typography component="h1" variant="h4" align="center">
-            Plateforme d'inscription COMPANY Kick-Off Meeting 2023
+            {t("formTitle")}
+            {/* Plateforme d'inscription COMPANY Kick-Off Meeting 2023 */}
           </Typography>
-          <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
+          {matches && (<Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
+            {steps.map((label) => (
+              <Step key={label}>
+                <StepLabel>{t(label)}</StepLabel>
+              </Step>
+            ))}
+          </Stepper>)} 
+          {!matches && (<Stepper activeStep={activeStep} orientation="vertical" sx={{pt: 3, pb: 5}}>
             {steps.map((label) => (
               <Step key={label}>
                 <StepLabel>{label}</StepLabel>
               </Step>
             ))}
-          </Stepper>
+          </Stepper>)}
           {activeStep === steps.length ? (
             <React.Fragment>
               <Typography variant="h5" gutterBottom>
@@ -235,6 +255,22 @@ export default function Checkout() {
               </Box> */}
             </React.Fragment>
           )}
+    <Box 
+  display="flex"
+  flexDirection="column"
+  justifyContent="center"
+  alignItems="center">
+      <Typography variant="h6" gutterBottom>
+        {t("Localization")}
+        </Typography>
+    <Box >
+    <Button>
+      <img src="https://hatscripts.github.io/circle-flags/flags/fr.svg" width="48" onClick={() => handleChange('fr')} />
+    </Button>
+    <Button>
+      <img src="https://hatscripts.github.io/circle-flags/flags/gb.svg" width="48" onClick={() => handleChange('en')} />
+    </Button></Box>
+    </Box>
         </Paper>
         <Copyright />
       </Container>
