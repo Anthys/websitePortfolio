@@ -1,18 +1,18 @@
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, HashRouter, Routes, Route } from "react-router-dom";
 import Checkout from "./checkout/Checkout";
 import BackOffice from "./checkout/BackOffice";
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <HashRouter  >
       <Routes>
         <Route path="/">
           <Route index element={<Checkout />} />
           <Route path="backoffice" element={<BackOffice />} />
         </Route>
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
