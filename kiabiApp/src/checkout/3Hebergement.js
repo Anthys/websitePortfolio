@@ -67,7 +67,11 @@ export default function Hebergement(props){
         <Grid item xs={12}>
        <FormControl fullWidth>
          
-       <FormLabel>Indiquez le nom et le prénom de la 2ème personne qui partagera votre chambre si elle est déjà connue, sinon la répartition sera réalisée par nos soins (cela ne dispense pas cette personne de s'inscrire également ;)  </FormLabel>
+       <FormLabel>
+        <Typography gutterBottom>
+          Indiquez le nom et le prénom de la 2ème personne qui partagera votre chambre si elle est déjà connue, sinon la répartition sera réalisée par nos soins (cela ne dispense pas cette personne de s'inscrire également ;)  
+          </Typography>
+        </FormLabel>
        <TextFieldWithError
             {... props}
         errors = {errors}
@@ -84,7 +88,10 @@ export default function Hebergement(props){
         <Grid item xs={12}>
        <FormControl fullWidth>
          
-       <FormLabel>Si tu arrives avant ou repart après ces dates (exemple : séminaire RH), merci de préciser ici tes besoins supplémentaires en hébergement  </FormLabel>
+       
+       <FormLabel>
+        <Typography gutterBottom>Si tu arrives avant ou repart après ces dates (exemple : séminaire RH), merci de préciser ici tes besoins supplémentaires en hébergement 
+        </Typography></FormLabel>
        <TextFieldWithError
             {... props}
         errors = {errors}
@@ -101,7 +108,9 @@ export default function Hebergement(props){
         <Grid item xs={12}>
        <FormControl fullWidth>
          
-       <FormLabel>En cas de problème d’ordre médical vous « obligeant » à dormir en single, nous le préciser ici</FormLabel>
+       <FormLabel>
+        <Typography gutterBottom>En cas de problème d’ordre médical vous « obligeant » à dormir en single, nous le préciser ici
+       </Typography></FormLabel>
        <TextFieldWithError
             {... props}
         errors = {errors}

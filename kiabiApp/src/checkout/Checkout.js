@@ -23,6 +23,7 @@ import Transport from './4Transport';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { SelectWithError } from './myThings/fieldsWithError';
 import { useTranslation } from "react-i18next";
+import Grid from '@mui/material/Grid';
 
 import background from "./logoo2.png"
 
@@ -168,6 +169,77 @@ export default function Checkout() {
   }));
   }
 
+  const cont =(<Container component="main" sx={{ mb: 4 }}>
+  {/* backgroundImage:'url('+imgPath+')' */}
+  <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 }, backgroundImage : `url(${background})` , backgroundSize: "100% auto"}}>
+    <Typography component="h1" variant="h4" align="center">
+      {t("formTitle")}
+      {/* Plateforme d'inscription COMPANY Kick-Off Meeting 2023 */}
+    </Typography>
+    {matches && (<Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
+      {steps.map((label) => (
+        <Step key={label}>
+          <StepLabel>{t(label)}</StepLabel>
+        </Step>
+      ))}
+    </Stepper>)} 
+    {!matches && (<Stepper activeStep={activeStep} orientation="vertical" sx={{pt: 3, pb: 5}}>
+      {steps.map((label) => (
+        <Step key={label}>
+          <StepLabel>{label}</StepLabel>
+        </Step>
+      ))}
+    </Stepper>)}
+    {activeStep === steps.length ? (
+      <React.Fragment>
+        <Typography variant="h5" gutterBottom>
+          Votre inscription a bien été prise en compte!
+        </Typography>
+        {/* Debug:{JSON.stringify(formData)} */}
+        <Typography variant="subtitle1">
+          Vous recevrez bientôt un email de confirmation.
+        </Typography>
+      </React.Fragment>
+    ) : (
+      <React.Fragment>
+        {getStepContent(activeStep, nextStep, prevStep, handleInputData, formData)}
+        {/* <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          {activeStep !== 0 && (
+            <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
+              Back
+            </Button>
+          )}
+
+          <Button
+            variant="contained"
+            onClick={handleNext}
+            sx={{ mt: 3, ml: 1 }}
+          >
+            {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
+          </Button>
+        </Box> */}
+      </React.Fragment>
+    )}
+<Box 
+display="flex"
+flexDirection="column"
+justifyContent="center"
+alignItems="center">
+<Typography variant="h6" gutterBottom>
+  {t("Localization")}
+  </Typography>
+<Box >
+<Button>
+<img src="https://hatscripts.github.io/circle-flags/flags/fr.svg" width="48" onClick={() => handleChange('fr')} />
+</Button>
+<Button>
+<img src="https://hatscripts.github.io/circle-flags/flags/gb.svg" width="48" onClick={() => handleChange('en')} />
+</Button></Box>
+</Box>
+  </Paper>
+  <Copyright />
+</Container>);
+
   return (
     <div>
       <CssBaseline />
@@ -208,76 +280,38 @@ export default function Checkout() {
           <MenuItem value={"France affiliés"}>France affiliés / Invité au KOM</MenuItem>
         </SelectWithError>
         </FormControl>
-      <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
-        {/* backgroundImage:'url('+imgPath+')' */}
-        <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 }, backgroundImage : `url(${background})` , backgroundSize: "100% auto"}}>
-          <Typography component="h1" variant="h4" align="center">
-            {t("formTitle")}
-            {/* Plateforme d'inscription COMPANY Kick-Off Meeting 2023 */}
-          </Typography>
-          {matches && (<Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
-            {steps.map((label) => (
-              <Step key={label}>
-                <StepLabel>{t(label)}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>)} 
-          {!matches && (<Stepper activeStep={activeStep} orientation="vertical" sx={{pt: 3, pb: 5}}>
-            {steps.map((label) => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>)}
-          {activeStep === steps.length ? (
-            <React.Fragment>
-              <Typography variant="h5" gutterBottom>
-                Votre inscription a bien été prise en compte!
-              </Typography>
-              Debug:{JSON.stringify(formData)}
-              <Typography variant="subtitle1">
-                Vous recevrez bientôt un email de confirmation.
-              </Typography>
-            </React.Fragment>
-          ) : (
-            <React.Fragment>
-              {getStepContent(activeStep, nextStep, prevStep, handleInputData, formData)}
-              {/* <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                {activeStep !== 0 && (
-                  <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-                    Back
-                  </Button>
-                )}
 
-                <Button
-                  variant="contained"
-                  onClick={handleNext}
-                  sx={{ mt: 3, ml: 1 }}
-                >
-                  {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
-                </Button>
-              </Box> */}
-            </React.Fragment>
-          )}
-    <Box 
-  display="flex"
-  flexDirection="column"
-  justifyContent="center"
-  alignItems="center">
-      <Typography variant="h6" gutterBottom>
-        {t("Localization")}
-        </Typography>
-    <Box >
-    <Button>
-      <img src="https://hatscripts.github.io/circle-flags/flags/fr.svg" width="48" onClick={() => handleChange('fr')} />
-    </Button>
-    <Button>
-      <img src="https://hatscripts.github.io/circle-flags/flags/gb.svg" width="48" onClick={() => handleChange('en')} />
-    </Button></Box>
-    </Box>
-        </Paper>
-        <Copyright />
-      </Container>
+
+        <Container maxWidth="sm" sx={{ my: 4 }} component="main">
+        {cont}
+        </Container>
+
+        {/* <Container maxWidth="md" sx={{ my: 4 }} component="main">
+          <Paper elevation="3">
+
+      <Grid container>
+        <Grid item xs={4}>
+          <Container sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 }}}>
+          <Typography variant="h6" gutterBottom align='center'>
+            INFORMATIONS/PROGRAM
+            PROGRAM
+            PROGRAM
+            PROGRAM
+            PROGRAM
+            PROGRAM
+            PROGRAM
+            PROGRAM
+            PROGRAM
+            PROGRAM
+          </Typography>
+          </Container>
+        </Grid>
+        <Grid item xs={8} >
+        {cont}
+        </Grid>
+      </Grid></Paper>
+        </Container> */}
+      
     </div>
   );
 }
